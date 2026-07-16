@@ -7,11 +7,10 @@ import os
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 models_dir = os.path.join(ROOT_DIR, 'models')
 
-# Load models and scaler
+# Load model and scaler
 try:
     scaler = joblib.load(os.path.join(models_dir, 'scaler.pkl'))
     supervised_model = joblib.load(os.path.join(models_dir, 'supervised_model.pkl'))
-    unsupervised_model = joblib.load(os.path.join(models_dir, 'unsupervised_model.pkl'))
 except Exception as e:
     print("Error loading models. Please ensure train_model.py has been run.")
 
@@ -56,17 +55,15 @@ def predict_stress(bp, sq, ea, bully, bn, tsr, dep):
     
     # Predict
     sup_pred = supervised_model.predict(scaled_data)[0]
-    unsup_pred = unsupervised_model.predict(scaled_data)[0]
-    
+
     stress_mapping = {
         0: "🟢 Rendah (Low Stress)",
         1: "🟡 Sedang (Medium Stress)",
         2: "🔴 Tinggi (High Stress)"
     }
-    
+
     res_stress = stress_mapping.get(sup_pred, "Tidak Diketahui")
-    res_cluster = f"Cluster {unsup_pred}"
-    
+
     # Keterangan tambahan berdasarkan tingkat stres
     desc = ""
     if sup_pred == 0:
@@ -76,7 +73,7 @@ def predict_stress(bp, sq, ea, bully, bn, tsr, dep):
     else:
         desc = "Peringatan: Tingkat stres terdeteksi sangat tinggi! Mahasiswa ini disarankan untuk segera mencari dukungan sosial atau berkonsultasi dengan layanan konseling kampus."
         
-    return gr.update(visible=True), res_stress, res_cluster, desc
+    return gr.update(visible=True), res_stress, desc
 
 def close_popup():
     return gr.update(visible=False)
@@ -134,8 +131,7 @@ with gr.Blocks(theme=gr.themes.Soft(primary_hue="emerald"), css=custom_css) as d
             
             with gr.Group():
                 out_stress = gr.Markdown("### Tingkat Stres: -")
-                out_cluster = gr.Markdown("### Profil Kelompok: -")
-                
+
             out_desc = gr.Markdown("Keterangan akan muncul di sini.", elem_classes="text-center")
             
             close_btn = gr.Button("Tutup Jendela Ini", variant="secondary", size="lg")
@@ -144,7 +140,7 @@ with gr.Blocks(theme=gr.themes.Soft(primary_hue="emerald"), css=custom_css) as d
     # ------------------ MAIN INTERFACE ------------------
     with gr.Column():
         gr.Markdown("# 🧠 Deteksi Stres Mahasiswa")
-        gr.Markdown("Aplikasi ini memprediksi tingkat stres berdasarkan 7 faktor utama (Machine Learning: Random Forest & K-Means Clustering). Geser slider di bawah, lalu klik **Analisis Data**.")
+        gr.Markdown("Aplikasi ini memprediksi tingkat stres berdasarkan 7 faktor utama (Machine Learning: Random Forest Classifier). Geser slider di bawah, lalu klik **Analisis Data**.")
         
         # 7 Most Important Features
         bp = gr.Slider(1, 3, step=1, label="Tekanan Darah (Blood Pressure)", value=2, interactive=True)
@@ -163,7 +159,7 @@ with gr.Blocks(theme=gr.themes.Soft(primary_hue="emerald"), css=custom_css) as d
     submit_btn.click(
         fn=predict_stress,
         inputs=inputs,
-        outputs=[modal_container, out_stress, out_cluster, out_desc]
+        outputs=[modal_container, out_stress, out_desc]
     )
     
     # Action to close pop-up
