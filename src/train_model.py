@@ -6,8 +6,10 @@ from sklearn.cluster import KMeans
 import joblib
 import os
 
-# Ensure the working directory contains data folder
-data_path = 'data/StressLevelDataset.xlsx'
+# Paths are resolved relative to this file so the script works regardless of cwd
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+data_path = os.path.join(ROOT_DIR, 'data', 'StressLevelDataset.xlsx')
+models_dir = os.path.join(ROOT_DIR, 'models')
 if not os.path.exists(data_path):
     raise FileNotFoundError(f"Cannot find dataset at {data_path}. Please check your current working directory.")
 
@@ -37,8 +39,9 @@ kmeans_model = KMeans(n_clusters=3, random_state=42, n_init=10)
 kmeans_model.fit(X_scaled_all)
 
 # Save the models and scaler
-joblib.dump(scaler, 'scaler.pkl')
-joblib.dump(rf_model, 'supervised_model.pkl')
-joblib.dump(kmeans_model, 'unsupervised_model.pkl')
+os.makedirs(models_dir, exist_ok=True)
+joblib.dump(scaler, os.path.join(models_dir, 'scaler.pkl'))
+joblib.dump(rf_model, os.path.join(models_dir, 'supervised_model.pkl'))
+joblib.dump(kmeans_model, os.path.join(models_dir, 'unsupervised_model.pkl'))
 
 print("Models trained and saved successfully!")

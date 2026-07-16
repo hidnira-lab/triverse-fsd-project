@@ -1,12 +1,17 @@
 import gradio as gr
 import joblib
 import pandas as pd
+import os
+
+# Paths are resolved relative to this file so the app works regardless of cwd
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+models_dir = os.path.join(ROOT_DIR, 'models')
 
 # Load models and scaler
 try:
-    scaler = joblib.load('scaler.pkl')
-    supervised_model = joblib.load('supervised_model.pkl')
-    unsupervised_model = joblib.load('unsupervised_model.pkl')
+    scaler = joblib.load(os.path.join(models_dir, 'scaler.pkl'))
+    supervised_model = joblib.load(os.path.join(models_dir, 'supervised_model.pkl'))
+    unsupervised_model = joblib.load(os.path.join(models_dir, 'unsupervised_model.pkl'))
 except Exception as e:
     print("Error loading models. Please ensure train_model.py has been run.")
 
