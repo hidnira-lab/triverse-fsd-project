@@ -1,6 +1,6 @@
 # TriVerse: Data Fundamentals Final Project
 
-This is the final project for the Data Fundamentals course, consisting of two case studies built on different datasets: student stress level prediction (supervised learning) and student lifestyle habits profiling (unsupervised learning). Full requirements are documented in `TriVerse_Project_Brief.md`.
+This is the final project for the Data Fundamentals course, consisting of two case studies built on different datasets: student stress level prediction (supervised learning) and student lifestyle habits profiling (unsupervised learning).
 
 ## Team
 
