@@ -28,9 +28,11 @@ triverse-fsd-project/
 ├── studi_kasus_2_unsupervised/   # Student lifestyle habits clustering
 │   ├── data/
 │   │   └── student_habits_performance.csv
-│   ├── models/                   # Pending, clustering model to be added
+│   ├── models/
+│   │   ├── kmeans_model.pkl
+│   │   └── scaler.pkl
 │   └── notebooks/
-│       └── eda_and_preprocessing.ipynb  # EDA and preprocessing (clustering model pending)
+│       └── eda_and_preprocessing.ipynb  # EDA, preprocessing, K-Means training and cluster interpretation
 └── requirements.txt
 ```
 
@@ -60,4 +62,6 @@ The application opens automatically in the browser. Adjust the sliders for the s
 
 ## Case Study 2: Student Lifestyle Habits Profiling
 
-EDA and preprocessing are done in `studi_kasus_2_unsupervised/notebooks/eda_and_preprocessing.ipynb`: data quality checks, visualizations with interpretation, feature selection (pure lifestyle habits, excluding demographics, infrastructure, and exam score), encoding, and scaling. The notebook produces a scaled feature matrix ready for clustering. The clustering work itself (K-Means with Elbow Method and Silhouette Score) is still pending.
+The full workflow is done in `studi_kasus_2_unsupervised/notebooks/eda_and_preprocessing.ipynb`: data quality checks, visualizations with interpretation, feature selection (pure lifestyle habits, excluding demographics, infrastructure, and exam score), encoding, and scaling, followed by K-Means training with Elbow Method and Silhouette Score to select the number of clusters, PCA visualization, and cluster characteristic interpretation.
+
+The best `k` is chosen automatically as the one with the highest Silhouette Score (k=2, Silhouette Score 0.1444 on this dataset). Running the notebook end to end saves the trained model and scaler to `studi_kasus_2_unsupervised/models/kmeans_model.pkl` and `scaler.pkl`. There is no Gradio app for this case study, as clustering results are meant to be explored through the notebook itself.
