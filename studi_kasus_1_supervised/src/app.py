@@ -106,6 +106,19 @@ with gr.Blocks(theme=gr.themes.Soft(primary_hue="emerald"), css=custom_css) as d
     gr.Markdown("# 🧠 Deteksi Stres Mahasiswa")
     gr.Markdown("Aplikasi ini memprediksi indikasi tingkat stres berdasarkan 7 faktor utama (Machine Learning: Random Forest Classifier). Isi data di sebelah kiri, lalu klik **Analisis Data Mahasiswa**.")
 
+    with gr.Accordion("📖 Panduan Parameter (Cara Membaca Skala)", open=False):
+        gr.Markdown("""
+        Berikut adalah penjelasan untuk setiap parameter dan makna dari skala (seperti 0-5). Nilai yang ideal atau tergolong **baik** ditandai dengan centang hijau (✅).
+
+        * **Tekanan Darah (1-3):** 1 = Normal ✅ | 2 = Agak Tinggi | 3 = Tinggi
+        * **Kualitas Tidur (0-5):** Semakin tinggi angkanya, semakin baik. (0 = Sangat Buruk ➔ 5 = Sangat Baik ✅)
+        * **Aktivitas Ekstrakurikuler (0-5):** Menunjukkan tingkat kesibukan kegiatan. (0 = Tidak Aktif ➔ 5 = Sangat Aktif)
+        * **Tingkat Bullying yang Dialami (0-5):** Semakin rendah angkanya, semakin baik. (0 = Tidak Pernah ✅ ➔ 5 = Sangat Sering)
+        * **Pemenuhan Kebutuhan Dasar (0-5):** Semakin tinggi angkanya, semakin baik. (0 = Sangat Kurang ➔ 5 = Sangat Terpenuhi ✅)
+        * **Hubungan Dosen-Mahasiswa (0-5):** Semakin tinggi angkanya, semakin baik. (0 = Sangat Buruk ➔ 5 = Sangat Baik ✅)
+        * **Tingkat Depresi (0-27):** Menggunakan skala psikologis. Semakin rendah angkanya, semakin baik. (0 = Tidak Ada Gejala ✅ ➔ 27 = Gejala Sangat Berat)
+        """)
+
     with gr.Row():
         with gr.Column(scale=4, elem_classes="panel-card"):
             gr.Markdown("### 📋 Input Data")
